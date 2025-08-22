@@ -11,7 +11,7 @@ struct ShapesView: View {
     @StateObject private var viewModel = ShapesViewModel()
     @State private var navigationPath = [NavigationRoute]()
     
-    let columns: [GridItem] = [
+    private let columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())

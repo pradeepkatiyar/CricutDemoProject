@@ -8,20 +8,25 @@
 import SwiftUI
 
 struct ShapeUpdateView: View {
-    @ObservedObject var viewModel: ShapesViewModel
+    @ObservedObject private var viewModel: ShapesViewModel
+    private let currentShapeType: ButtonConfig.ShapeType = .circle
     
-    let columns: [GridItem] = [
+    private let columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    init(viewModel: ShapesViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         VStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(viewModel.listOfShapes) { item in
-                        if item.type == .circle {
+                        if item.type == currentShapeType {
                             CircularView()
                         }
                     }
@@ -32,15 +37,15 @@ struct ShapeUpdateView: View {
             
             HStack {
                 Button("Delete All") {
-                    viewModel.removeShapesByType(shapeItemType: .circle)
+                    viewModel.removeShapesByType(shapeItemType: currentShapeType)
                 }
                 Spacer()
                 Button("Add") {
-                    viewModel.addNewShapeInListByType(shapeType: .circle)
+                    viewModel.addNewShapeInListByType(shapeType: currentShapeType)
                 }
                 Spacer()
                 Button("Remove") {
-                    if let itemId = viewModel.listOfShapes.last(where: { $0.type == .circle })?.id {
+                    if let itemId = viewModel.listOfShapes.last(where: { $0.type == currentShapeType })?.id {
                         viewModel.removeShapesById(shapeItemId: itemId)
                     }
                 }
